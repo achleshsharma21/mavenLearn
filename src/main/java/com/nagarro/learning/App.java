@@ -25,10 +25,10 @@ public class App{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		obj.getCSVData("AirIndia.csv", objectList,"DEL","MUB",date1);
+		obj.getCSVData("AirIndia.csv", objectList,"DEL","MUB",date1,"EB");
 //		System.out.println(obj1.toString());
-//		obj.getCSVData("indigo.csv", objectList,"DEL","MUB");
-//		obj.getCSVData("JetAir.csv", objectList,"DEL","MUB");
+//		obj.getCSVData("indigo.csv", objectList,"DEL","MUB",date1);
+//		obj.getCSVData("JetAir.csv", objectList,"DEL","MUB",date1);
 		
 
 		

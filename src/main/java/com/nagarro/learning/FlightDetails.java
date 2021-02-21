@@ -9,7 +9,7 @@ public class FlightDetails {
 	public String arrLocation;
 	public Date validDate;
 	public String flightTime;
-	public String flightFare;
+	public int flightFare;
 	public String seatAvail;
 	public String classType;
 	public String flightDuration;
@@ -50,11 +50,11 @@ public class FlightDetails {
 	public void setFlightTime(String flightTime) {
 		this.flightTime = flightTime;
 	}
-	public String getFlightFare() {
+	public int getFlightFare() {
 		return flightFare;
 	}
 	public void setFlightFare(String flightFare) {
-		this.flightFare = flightFare;
+		this.flightFare = Integer.parseInt(flightFare);
 	}
 	public String getSeatAvail() {
 		return seatAvail;
