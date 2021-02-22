@@ -1,11 +1,11 @@
 package com.nagarro.learning;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FlightView {
 public void viewFlights(List<FlightDetails> flightList)
 {
+	if(flightList.size()!=0) {
 	System.out.println("\n \t\t ***** FLIGHT INFORMATION *****");
 	for(FlightDetails f:flightList)
 	{
@@ -16,6 +16,11 @@ public void viewFlights(List<FlightDetails> flightList)
 		System.out.println("Fare: "+f.getFlightFare());
 		System.out.println("Duration: "+f.getFlightDuration());
 		System.out.println("*******************************");
+	}
+}
+	else
+	{
+		System.out.println("No Matches Found...");
 	}
 }
 }

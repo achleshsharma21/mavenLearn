@@ -1,35 +1,42 @@
 package com.nagarro.learning;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVRecord;
-import org.omg.CORBA.UserException;
-
+import java.util.Scanner;
 public class App {
 	public static void main(String[] args) throws IOException {
+		@SuppressWarnings("resource")
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Enter the DEPARTURE Location.");
+		String depLocation=sc.next();
+		System.out.println("Enter the ARRIVAL Location.");
+		String arrLocation=sc.next();
+		System.out.println("Enter the Date of Flight in dd-MM-yyyy format.");
+		String flightDate=sc.next();
+		System.out.println("Enter the Flight Class");
+		String classPreference=sc.next();
+		System.out.println("Enter the output preference:");
+		System.out.println("Enter 1 for Sort by Fare and 2 for Sort by both fare and duration.");
+		int outPreference=sc.nextInt();
 		List<FlightDetails> objectList = new ArrayList<FlightDetails>();
 		InputDetails obj = new InputDetails();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		String dt = "20-12-2013";
-		Date date1 = null;
+		Date dateFormat = null;
 		try {
-			date1 = formatter.parse(dt);
+			dateFormat = formatter.parse(flightDate);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		try {
-			obj.getCSVData("AirIndia.csv", objectList, "DEL", "MUB", date1, "B");
-			obj.getCSVData("indigo.csv", objectList, "DEL", "MUB", date1, "B");
-			obj.getCSVData("JetAir.csv", objectList, "DEL", "MUB", date1, "B");
-			obj.preferenceView(1);
+			obj.getCSVData("AirIndia.csv", objectList, depLocation, arrLocation, dateFormat, classPreference);
+			obj.getCSVData("indigo.csv", objectList, depLocation, arrLocation, dateFormat, classPreference);
+			obj.getCSVData("JetAir.csv", objectList, depLocation, arrLocation, dateFormat, classPreference);
+			obj.preferenceView(outPreference);
 			if (objectList.size() < 1) {
 				throw new UserFriendlyErrorException("No values Entered/Found.");
 			}
