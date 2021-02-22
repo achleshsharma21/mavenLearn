@@ -11,26 +11,39 @@ import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import org.omg.CORBA.UserException;
 
-public class App{
-	public static void main(String[] args) throws IOException{
-		ArrayList<FlightDetails> objectList=new ArrayList<FlightDetails>();
-		FlightDetails obj1=new FlightDetails();
-		InputDetails obj=new InputDetails();
+public class App {
+	public static void main(String[] args) throws IOException {
+		List<FlightDetails> objectList = new ArrayList<FlightDetails>();
+		InputDetails obj = new InputDetails();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        String dt="20-12-2013";
+		String dt = "20-12-2013";
 		Date date1 = null;
-        try {
+		try {
 			date1 = formatter.parse(dt);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		obj.getCSVData("AirIndia.csv", objectList,"DEL","MUB",date1,"EB");
-//		System.out.println(obj1.toString());
-//		obj.getCSVData("indigo.csv", objectList,"DEL","MUB",date1);
-//		obj.getCSVData("JetAir.csv", objectList,"DEL","MUB",date1);
-		
-
-		
+		try {
+			obj.getCSVData("AirIndia.csv", objectList, "DEL", "MUB", date1, "B");
+			obj.getCSVData("indigo.csv", objectList, "DEL", "MUB", date1, "B");
+			obj.getCSVData("JetAir.csv", objectList, "DEL", "MUB", date1, "B");
+			obj.preferenceView(1);
+			if (objectList.size() < 1) {
+				throw new UserFriendlyErrorException("No values Entered/Found.");
+			}
+		} catch (UserFriendlyErrorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
+
+@SuppressWarnings("serial")
+class UserFriendlyErrorException extends Exception {
+	public UserFriendlyErrorException(String s) {
+		// Call constructor of parent Exception
+		super(s);
+	}
 }

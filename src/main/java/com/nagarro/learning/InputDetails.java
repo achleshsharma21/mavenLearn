@@ -7,21 +7,29 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
 public class InputDetails {
-	public void getCSVData(String fileLoc, ArrayList<FlightDetails> list, String source, String dest, Date dt, String seatClass)
-			throws IOException {
+	List<FlightDetails> mainList = new ArrayList<FlightDetails>();
+	FlightDetails details;
+	FlightView view = new FlightView();
+
+	public void getCSVData(String fileLoc, List<FlightDetails> list, String source, String dest, Date dt,
+			String seatClass) throws IOException {
 		String empty = "";
 		BufferedReader br = Files.newBufferedReader(Paths.get(fileLoc));
-		FlightDetails details = new FlightDetails();
 		Iterable<CSVRecord> records = CSVFormat.EXCEL.withDelimiter('|').withFirstRecordAsHeader().parse(br);
 		// List<FlightDetails> list = new ArrayList<>();
 		for (CSVRecord record : records) {
+			details = new FlightDetails();
 			details.setFlightNum(record.get("FLIGHT_NO"));
 			details.setDepLocation(record.get("DEP_LOC"));
 			details.setArrLocation(record.get("ARR_LOC"));
@@ -44,19 +52,32 @@ public class InputDetails {
 				break;
 			} else if (details.getDepLocation().equals(source) && details.getArrLocation().equals(dest)
 					&& (date1.before(dt) || date1.equals(dt)) && details.getSeatAvail().equals("Y")) {
-			//	System.out.println(details.toString());
-				if(seatClass.equals("B"))
-				{
-					int newPrice=(int)(details.getFlightFare()+0.4*(details.getFlightFare()));
-					String newFare=String.valueOf(newPrice);
-					details.setFlightFare(newFare);
+				// System.out.println(details.toString());
+				if (seatClass.equals("B")) {
+					int newPrice = (int) (details.getFlightFare() + 0.4 * (details.getFlightFare()));
+//					String newFare = String.valueOf(newPrice);
+					details.setFlightFare(Integer.toString(newPrice));
 				}
-				System.out.println(details.toString());
+				mainList.add(details);
 			}
-//			else {
-//				System.out.println("Seats Unavailable.");
-//			}
+
 		}
 
 	}
+
+	public void preferenceView(int choiceCode) {
+		if (choiceCode == 1) {
+			Comparator<FlightDetails> comparator = Comparator.comparing(FlightDetails::getFlightFare);
+			Stream<FlightDetails> personStream = mainList.stream().sorted(comparator);
+			List<FlightDetails> sortedFare = personStream.collect(Collectors.toList());
+			view.viewFlights(sortedFare);
+		} else {
+			Comparator<FlightDetails> comparator = Comparator.comparing(FlightDetails::getFlightFare);
+			comparator = comparator.thenComparing(Comparator.comparing(FlightDetails::getFlightDuration));
+			Stream<FlightDetails> personStream = mainList.stream().sorted(comparator);
+			List<FlightDetails> sortedFlight = personStream.collect(Collectors.toList());
+			view.viewFlights(sortedFlight);
+		}
+	}
+
 }

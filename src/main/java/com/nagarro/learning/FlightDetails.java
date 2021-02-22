@@ -14,6 +14,24 @@ public class FlightDetails {
 	public String classType;
 	public String flightDuration;
 	
+	public FlightDetails()
+	{
+	}
+	
+	public FlightDetails(String flightNum, String depLocation, String arrLocation, Date validDate, String flightTime,
+		int flightFare, String seatAvail, String classType, String flightDuration) {
+		super();
+		this.flightNum = flightNum;
+		this.depLocation = depLocation;
+		this.arrLocation = arrLocation;
+		this.validDate = validDate;
+		this.flightTime = flightTime;
+		this.flightFare = flightFare;
+		this.seatAvail = seatAvail;
+		this.classType = classType;
+		this.flightDuration = flightDuration;
+	}
+	
 	public String getFlightDuration() {
 		return flightDuration;
 	}
