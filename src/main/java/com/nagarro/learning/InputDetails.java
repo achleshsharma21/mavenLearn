@@ -45,7 +45,7 @@ public class InputDetails {
 			detailsObject.setClassType(record.get("CLASS"));
 			list.add(detailsObject);
 			 if (detailsObject.getDepLocation().equals(depLocation) && detailsObject.getArrLocation().equals(arrLocation)
-					&& (flightDate.before(dt) || flightDate.equals(dt)) && detailsObject.getSeatAvail().equals("Y")) {
+					&& flightDate.equals(dt) && detailsObject.getSeatAvail().equals("Y")) {
 				if (seatClass.equals("B")) {
 					int newPrice = (int) (detailsObject.getFlightFare() + 0.4 * (detailsObject.getFlightFare()));
 					detailsObject.setFlightFare(Integer.toString(newPrice));
